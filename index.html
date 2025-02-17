@@ -1,53 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Access Blocked - VPN Detected</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 50px;
-            background-color: #f8f9fa;
-        }
-        .container {
-            max-width: 500px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h2 {
-            color: red;
-        }
-        p {
-            font-size: 18px;
-            color: #333;
-        }
-        .button {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            background: red;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 18px;
-        }
-        .button:hover {
-            background: darkred;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Location Access Request</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f4f8;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      width: 100%;
+      max-width: 800px;
+      margin: 50px auto;
+      text-align: center;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      color: #1e3a8a;
+    }
+    p {
+      font-size: 18px;
+      color: #555;
+    }
+    .btn {
+      padding: 10px 20px;
+      background-color: #1e3a8a;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 20px;
+    }
+    .btn:hover {
+      background-color: #2563eb;
+    }
+    .image-container {
+      margin-top: 30px;
+      display: none;
+    }
+    .image-container img {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h2>🚫 Access Denied: VPN Detected</h2>
-        <p>We have detected that you are using a VPN or Proxy service. For security reasons, access is restricted.</p>
-        <p><strong>Please disable your VPN and refresh this page.</strong></p>
-        <a href="#" class="button">Refresh Page</a>
+
+  <div class="container">
+    <h1>Allow Location Access</h1>
+    <p>We need your location to show an image based on where you are. Please enable location services.</p>
+    <button class="btn" onclick="requestLocation()">Enable Location Access</button>
+    
+    <div class="image-container" id="image-container">
+      <h2>Your Image</h2>
+      <img src="https://via.placeholder.com/600x300" alt="Location-based Image">
     </div>
+  </div>
+
+  <script>
+    function requestLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showImage, showError);
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    }
+
+    function showImage(position) {
+      document.getElementById('image-container').style.display = 'block';
+    }
+
+    function showError(error) {
+      switch(error.code) {
+        case error.PERMISSION_DENIED:
+          alert("User denied the request for Geolocation.");
+          break;
+        case error.POSITION_UNAVAILABLE:
+          alert("Location information is unavailable.");
+          break;
+        case error.TIMEOUT:
+          alert("The request to get user location timed out.");
+          break;
+        case error.UNKNOWN_ERROR:
+          alert("An unknown error occurred.");
+          break;
+      }
+    }
+  </script>
+
 </body>
 </html>
 
